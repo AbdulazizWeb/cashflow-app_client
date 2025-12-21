@@ -1,0 +1,65 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Abdulaziz",
+      "email": "abdulazizcloud@gmail.com",
+      "password": "Admin_777"
+    },
+    {
+      "id": "2",
+      "name": "USD Wallet",
+      "email": "a@gmail.com",
+      "password": "Admin_777"
+    },
+    {
+      "email": "asd@gmail.com",
+      "password": "$2a$10$2Rr1aV9AUnqM0AJv/QDCq.fi.ZuXSe8yg9O5PJKhBzhqPaSNQXRMG",
+      "name": "Sheikh77",
+      "id": "hfsLRMH"
+    },
+    {
+      "email": "a@bk.ru",
+      "password": "$2a$10$5Wx621YKq2vEhw/KOveeZ.U7mGX94tVUXXK4aePWLS2XZg8SVBo7e",
+      "name": "a@bk.ru",
+      "id": "JfP9vKF"
+    },
+    {
+      "email": "ad@gmail.com",
+      "password": "$2a$10$SUb1JpDLvnyvMaUCGiaHweRcGlb6uaW36heCKejPCHu8zSuVDu7sW",
+      "name": "ad@gmail.com",
+      "id": "JWZtFtX"
+    },
+    {
+      "email": "add@gmail.com",
+      "password": "$2a$10$Zh6vEVTo82Ad9DEDuXCaqOGXj4TRh77sisfo1pvaMJa1hMV/Ol5vC",
+      "name": "ad@gmail.com",
+      "id": "FC6ZY-Q"
+    }
+  ],
+  "wallets": [
+    {
+      "id": "w1",
+      "name": "Main",
+      "currency": "UZS",
+      "balance": 1200000
+    },
+    {
+      "id": "w2",
+      "name": "USD Wallet",
+      "currency": "USD",
+      "balance": 250
+    }
+  ],
+  "transactions": [
+    {
+      "id": "t1",
+      "walletId": "w1",
+      "type": "expense",
+      "amount": 150000,
+      "note": "Food",
+      "createdAt": "2025-12-18T06:00:00.000Z",
+      "currency": "UZS"
+    }
+  ]
+}
