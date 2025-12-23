@@ -1,17 +1,9 @@
-// import { useState } from "react";
 import "./App.css";
-import { Button } from "@/shared/ui/shadcn/button";
 
-function App() {
+function App({ children }: { children: React.ReactNode }) {
   // const [count, setCount] = useState(0);
 
-  return (
-    <>
-      <div className="flex min-h-svh flex-col items-center justify-center">
-        <Button>Click me</Button>
-      </div>
-    </>
-  );
+  return <>{children}</>;
 }
 
 export default App;

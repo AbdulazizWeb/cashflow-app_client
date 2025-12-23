@@ -11,6 +11,7 @@ import {
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
@@ -18,46 +19,56 @@ import {
 import { Input } from "@/shared/ui/shadcn/input";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
+import { toast } from "sonner";
 
 export function RegisterPage({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
-  const [registerUser, { error, isLoading, isSuccess }] =
-    useRegisterUserMutation();
-
-  const onSubmit = (data: {
+  type FormFields = {
     name: string;
     email: string;
     password: string;
-  }) => {
-    registerUser(data);
-    if (!isLoading && isSuccess) navigate("/login");
+  };
+  type ErrorFields = {
+    data: string;
+  };
 
-    console.log(data);
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormFields>();
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
+
+  const onSubmit = async (data: FormFields) => {
+    try {
+      await registerUser(data).unwrap();
+      toast.success("Registration successful!");
+      navigate("/");
+    } catch (error: unknown) {
+      const errorMessage =
+        (error as ErrorFields)?.data || "Registration failed";
+      toast.error(errorMessage);
+    }
   };
   return (
-    <div className="w-full bg-lime-200 flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
-      <div className="flex w-full max-w-sm flex-col gap-6">
-        <a href="#" className="flex items-center gap-2 self-center font-medium">
-          <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
-            {/* <GalleryVerticalEnd className="size-4" /> */}
-          </div>
-          Acme Inc.
-        </a>
-        <div className={cn("flex flex-col gap-6", className)} {...props}>
-          <Card>
+    <div className="w-full bg-[#afffaf92] flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10 bg-[url(/src/shared/assets/login-bg.png)]">
+      <div className="absolute inset-0 bg-linear-to-r bg-[#0000008d]"></div>
+      <div className="flex w-full max-w-sm flex-col gap-3 relative z-10 justify-center">
+        <div className={cn("flex flex-col gap-6 ", className)} {...props}>
+          <Card className="">
             <CardHeader className="text-center">
-              <CardTitle className="text-xl">Welcome back</CardTitle>
+              <CardTitle className="text-xl">Sign up</CardTitle>
               <CardDescription>
                 Login with your Apple or Google account
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="">
               <form onSubmit={handleSubmit(onSubmit)}>
-                <FieldGroup>
+                <FieldGroup className="">
                   <Field>
                     <Button variant="outline" type="button">
                       <svg
@@ -87,43 +98,48 @@ export function RegisterPage({
                   <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                     Or continue with
                   </FieldSeparator>
-                  <Field>
-                    <FieldLabel htmlFor="name">Name</FieldLabel>
-                    <Input
-                      {...register("name", { required: true })}
-                      id="name"
-                      type="text"
-                      placeholder="Enter your name"
-                    />
+                  <Field className="gap-2">
+                    <Field className="gap-0">
+                      <FieldLabel htmlFor="name">Name</FieldLabel>
+                      <Input
+                        {...register("name", {
+                          required: "Name is required",
+                        })}
+                        id="name"
+                        type="text"
+                        placeholder="Enter your name"
+                      />
+                      <FieldError>{errors.name?.message}</FieldError>
+                    </Field>
+                    <Field className="gap-0">
+                      <FieldLabel htmlFor="email">Email</FieldLabel>
+                      <Input
+                        {...register("email", {
+                          required: "Email is required",
+                        })}
+                        id="email"
+                        type="email"
+                        placeholder="m@example.com"
+                      />
+                      <FieldError>{errors.email?.message}</FieldError>
+                    </Field>
+                    <Field className="gap-0">
+                      <FieldLabel htmlFor="email">Password</FieldLabel>
+                      <Input
+                        {...register("password", {
+                          required: "Password is required",
+                        })}
+                        id="password"
+                        type="password"
+                        placeholder="Enter your password"
+                      />
+                      <FieldError>{errors.password?.message}</FieldError>
+                    </Field>
                   </Field>
-                  <Field>
-                    <FieldLabel htmlFor="email">Email</FieldLabel>
-                    <Input
-                      {...register("email", { required: true })}
-                      id="email"
-                      type="email"
-                      placeholder="m@example.com"
-                    />
-                  </Field>
-                  <Field>
-                    <div className="flex items-center">
-                      <FieldLabel htmlFor="password">Password</FieldLabel>
-                      <a
-                        href="#"
-                        className="ml-auto text-sm underline-offset-4 hover:underline"
-                      >
-                        Forgot your password?
-                      </a>
-                    </div>
-                    <Input
-                      {...register("password", { required: true })}
-                      id="password"
-                      type="password"
-                      required
-                    />
-                  </Field>
-                  <Field>
-                    <Button type="submit">Login</Button>
+                  <Field className="mt-5">
+                    <Button type="submit" disabled={isLoading}>
+                      Register
+                    </Button>
                     <FieldDescription className="text-center">
                       Don&apos;t have an account?{" "}
                       <Link to="/login">Log in</Link>
@@ -133,9 +149,16 @@ export function RegisterPage({
               </form>
             </CardContent>
           </Card>
-          <FieldDescription className="px-6 text-center">
+          <FieldDescription className="px-6 text-center text-[#ececec] ">
             By clicking continue, you agree to our{" "}
-            <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+            <a className=" text-white hover:text-white" href="#">
+              Terms of Service
+            </a>{" "}
+            and{" "}
+            <a className="text-white hover:text-white" href="#">
+              Privacy Policy
+            </a>
+            .
           </FieldDescription>
         </div>
       </div>

@@ -9,7 +9,7 @@ type User = {
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     login: build.mutation<
-      { token: string },
+      { accessToken: string; user: User },
       { email: string; password: string }
     >({
       query: (body) => ({
@@ -18,11 +18,11 @@ export const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
-    getUsers: build.query<User, void>({
-      query: () => "/users",
+    getUsers: build.query<User, string>({
+      query: (id) => `/users/${id}`,
     }),
     registerUser: build.mutation<
-      { id: string; name: string; email: string },
+      { accessToken: string; user: User },
       { name: string; email: string; password: string }
     >({
       query: (body) => ({
