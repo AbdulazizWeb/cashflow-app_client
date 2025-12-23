@@ -4,13 +4,13 @@
       "id": "1",
       "name": "Abdulaziz",
       "email": "abdulazizcloud@gmail.com",
-      "password": "Admin_777"
+      "password": "$2a$10$2Rr1aV9AUnqM0AJv/QDCq.fi.ZuXSe8yg9O5PJKhBzhqPaSNQXRMG"
     },
     {
       "id": "2",
       "name": "USD Wallet",
       "email": "a@gmail.com",
-      "password": "Admin_777"
+      "password": "$2a$10$2Rr1aV9AUnqM0AJv/QDCq.fi.ZuXSe8yg9O5PJKhBzhqPaSNQXRMG"
     },
     {
       "email": "asd@gmail.com",
@@ -25,16 +25,10 @@
       "id": "JfP9vKF"
     },
     {
-      "email": "ad@gmail.com",
-      "password": "$2a$10$SUb1JpDLvnyvMaUCGiaHweRcGlb6uaW36heCKejPCHu8zSuVDu7sW",
-      "name": "ad@gmail.com",
-      "id": "JWZtFtX"
-    },
-    {
-      "email": "add@gmail.com",
-      "password": "$2a$10$Zh6vEVTo82Ad9DEDuXCaqOGXj4TRh77sisfo1pvaMJa1hMV/Ol5vC",
-      "name": "ad@gmail.com",
-      "id": "FC6ZY-Q"
+      "email": "qw@odina.ru",
+      "password": "$2a$10$gQdX281I9kchEbDT0mrrb..mSK/BWnWH9HVMDLpTL07tBZOl3Kc4q",
+      "name": "Odish",
+      "id": "ioNcCHh"
     }
   ],
   "wallets": [
