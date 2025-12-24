@@ -10,7 +10,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     Component: lazy(() =>
-      import("@/app/layouts/AuthLayout").then((module) => ({
+      import("@/app/layouts/auth-layout").then((module) => ({
         default: module.AuthLayout,
       }))
     ),
@@ -19,7 +19,7 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         Component: lazy(() =>
-          import("@/pages/auth/LoginPage").then((module) => ({
+          import("@/pages/auth/login-page").then((module) => ({
             default: module.LoginPage,
           }))
         ),
@@ -27,7 +27,7 @@ export const router = createBrowserRouter([
       {
         path: "/register",
         Component: lazy(() =>
-          import("@/pages/auth/RegisterPage").then((module) => ({
+          import("@/pages/auth/register-page").then((module) => ({
             default: module.RegisterPage,
           }))
         ),
@@ -37,7 +37,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     Component: lazy(() =>
-      import("@/app/layouts/AppLayout").then((module) => ({
+      import("@/app/layouts/app-layout").then((module) => ({
         default: module.AppLayout,
       }))
     ),
@@ -46,7 +46,7 @@ export const router = createBrowserRouter([
       {
         path: "/control-panel",
         Component: lazy(() =>
-          import("@/pages/controlPanel-module/ControlPanelPage").then(
+          import("@/pages/control-panel-module/control-panel-page").then(
             (module) => ({
               default: module.ControlPanelPage,
             })
@@ -56,16 +56,8 @@ export const router = createBrowserRouter([
       {
         path: "/cashbox",
         Component: lazy(() =>
-          import("@/pages/cashbox-module/CashboxPage").then((module) => ({
+          import("@/pages/cashbox-module/cashbox-page").then((module) => ({
             default: module.CashboxPage,
-          }))
-        ),
-      },
-      {
-        path: "/reports",
-        Component: lazy(() =>
-          import("@/pages/reports-module/ReportsPage").then((module) => ({
-            default: module.ReportsPage,
           }))
         ),
       },
@@ -74,7 +66,7 @@ export const router = createBrowserRouter([
   {
     path: "*",
     Component: lazy(() =>
-      import("@/pages/auth/NotFoundPage").then((module) => ({
+      import("@/pages/auth/not-found-page").then((module) => ({
         default: module.NotFoundPage,
       }))
     ),

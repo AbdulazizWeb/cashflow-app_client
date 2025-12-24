@@ -17,7 +17,7 @@ import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
-import { loginSuccess } from "@/entities/auth/model/authSlice";
+import { loginSuccess } from "@/entities/auth/model/auth-slice";
 
 type FormFields = {
   email: string;

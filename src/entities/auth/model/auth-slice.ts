@@ -1,4 +1,4 @@
-import { decodeJwt, type JwtClaims } from "@/shared/lib/decodeJwt";
+import { decodeJwt, type JwtClaims } from "@/shared/lib/decode-jwt";
 import { tokenStorage } from "@/shared/lib/token";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 

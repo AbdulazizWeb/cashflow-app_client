@@ -4,7 +4,7 @@ import "./index.css";
 import { RouterProvider } from "react-router";
 import { router } from "./app/providers/router";
 import { Provider } from "react-redux";
-import { store } from "./app/providers/store/AppStore";
+import { store } from "./app/providers/store/app-store";
 import App from "./app/App";
 import { Toaster } from "./shared/ui/shadcn/sonner";
 

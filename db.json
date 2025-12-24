@@ -17,20 +17,9 @@
       "password": "$2a$10$2Rr1aV9AUnqM0AJv/QDCq.fi.ZuXSe8yg9O5PJKhBzhqPaSNQXRMG",
       "name": "Sheikh77",
       "id": "hfsLRMH"
-    },
-    {
-      "email": "a@bk.ru",
-      "password": "$2a$10$5Wx621YKq2vEhw/KOveeZ.U7mGX94tVUXXK4aePWLS2XZg8SVBo7e",
-      "name": "a@bk.ru",
-      "id": "JfP9vKF"
-    },
-    {
-      "email": "qw@odina.ru",
-      "password": "$2a$10$gQdX281I9kchEbDT0mrrb..mSK/BWnWH9HVMDLpTL07tBZOl3Kc4q",
-      "name": "Odish",
-      "id": "ioNcCHh"
     }
   ],
+
   "wallets": [
     {
       "id": "w1",
@@ -39,12 +28,19 @@
       "balance": 1200000
     },
     {
-      "id": "w2",
-      "name": "USD Wallet",
-      "currency": "USD",
-      "balance": 250
+      "id": "w1",
+      "name": "Main",
+      "currency": "UZS",
+      "balance": 1200000
+    },
+    {
+      "id": "w1",
+      "name": "Main",
+      "currency": "UZS",
+      "balance": 1200000
     }
   ],
+
   "transactions": [
     {
       "id": "t1",

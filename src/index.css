@@ -1,4 +1,12 @@
-/* src/index.css */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  overflow: hidden; /* ✅ butun app scrollini o‘chiradi */
+}
 
 /* Tailwind v4 importlari */
 @import "tailwindcss";

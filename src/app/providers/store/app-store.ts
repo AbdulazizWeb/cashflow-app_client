@@ -1,5 +1,5 @@
-import { authReducer } from "@/entities/auth/model/authSlice";
-import { baseApi } from "@/shared/api/baseApi";
+import { authReducer } from "@/entities/auth/model/auth-slice";
+import { baseApi } from "@/shared/api/base-api";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({
