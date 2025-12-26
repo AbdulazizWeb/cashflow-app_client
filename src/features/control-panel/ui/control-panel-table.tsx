@@ -13,7 +13,7 @@ export const ControlPanelTable = () => {
     return () => setHeaderTitle(null);
   }, [setHeaderTitle]);
   const { data: wallets = [] } = useGetWalletsQuery<{ data: Wallet[] }>();
-  console.log("resppp", wallets);
+  // console.log("resppp", wallets);
 
   return <DataTable columns={columns} data={wallets} />;
 };

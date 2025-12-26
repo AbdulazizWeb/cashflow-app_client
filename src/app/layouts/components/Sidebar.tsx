@@ -35,7 +35,7 @@ export function AppSidebar() {
   const { data } = useGetUsersQuery(claims?.sub ?? "");
   // console.log(getUser.data);
 
-  console.log("claims", data);
+  // console.log("claims", data);
 
   const logOutHandler = () => {
     localStorage.removeItem("token");

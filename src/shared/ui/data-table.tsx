@@ -79,6 +79,7 @@ export function DataTable<TData, TValue>({
                       <TableHead
                         key={header.id}
                         className="sticky top-0 z-20 bg-[#e0e0e0]"
+                        style={{ width: header.getSize() }}
                       >
                         <button
                           type="button"
@@ -120,7 +121,10 @@ export function DataTable<TData, TValue>({
                 table.getRowModel().rows.map((row) => (
                   <TableRow key={row.id}>
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell
+                        key={cell.id}
+                        style={{ width: cell.column.getSize() }}
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()

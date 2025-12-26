@@ -12,7 +12,7 @@ import { ArrowLeftRight } from "lucide-react";
 export const CashboxPage = () => {
   return (
     <div className="flex flex-col gap-3 w-full h-full p-2">
-      <div className="w-full h-[5%] bg-white flex justify-end gap-2">
+      <div className="w-full bg-white flex justify-end gap-2">
         <Button
           size={"sm"}
           variant={"default"}
@@ -33,7 +33,7 @@ export const CashboxPage = () => {
         </Select>
       </div>
 
-      <div className="w-full h-[95%] bg-white rounded-md">
+      <div className="w-full min-h-0 bg-white rounded-md">
         <CashboxTable />
       </div>
     </div>

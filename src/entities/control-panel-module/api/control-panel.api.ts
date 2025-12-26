@@ -1,10 +1,11 @@
 import { baseApi } from "@/shared/api/base-api";
 
-type Wallet = {
+interface Wallet {
   id: string;
   name: string;
   balance: number;
-};
+  currency: "UZS" | "USD";
+}
 
 const controlPanelApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -12,8 +13,17 @@ const controlPanelApi = baseApi.injectEndpoints({
       query: () => ({
         url: "/wallets",
       }),
+      providesTags: ["Wallet"],
+    }),
+    addWallet: build.mutation<Wallet, Omit<Wallet, "id">>({
+      query: (body) => ({
+        url: "wallets",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Wallet"],
     }),
   }),
 });
 
-export const { useGetWalletsQuery } = controlPanelApi;
+export const { useGetWalletsQuery, useAddWalletMutation } = controlPanelApi;

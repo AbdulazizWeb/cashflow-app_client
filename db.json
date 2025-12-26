@@ -19,28 +19,92 @@
       "id": "hfsLRMH"
     }
   ],
-
   "wallets": [
     {
-      "id": "w1",
-      "name": "Main",
+      "name": "",
       "currency": "UZS",
-      "balance": 1200000
+      "balance": 0,
+      "id": "ZXGJC0L"
     },
     {
-      "id": "w1",
-      "name": "Main",
+      "name": "",
       "currency": "UZS",
-      "balance": 1200000
+      "balance": 0,
+      "id": "HkURXBF"
     },
     {
-      "id": "w1",
-      "name": "Main",
+      "name": "Waalletim",
       "currency": "UZS",
-      "balance": 1200000
+      "balance": 0,
+      "id": "jDCPbZG"
+    },
+    {
+      "name": "Wallet nomer 1",
+      "currency": "UZS",
+      "balance": 0,
+      "id": "_guIsny"
+    },
+    {
+      "name": "",
+      "currency": "UZS",
+      "balance": 0,
+      "id": "vC7qVqW"
+    },
+    {
+      "name": "",
+      "currency": "UZS",
+      "balance": 0,
+      "id": "2Ddk0LR"
+    },
+    {
+      "name": "",
+      "currency": "UZS",
+      "balance": 0,
+      "id": "uzjXOG2"
+    },
+    {
+      "name": "Walletcha",
+      "currency": "UZS",
+      "balance": 0,
+      "id": "IeX6-Lo"
+    },
+    {
+      "name": "Walletcha",
+      "currency": "UZS",
+      "balance": 0,
+      "id": "JLRcejQ"
+    },
+    {
+      "name": "Wallet 2",
+      "currency": "USD",
+      "balance": 0,
+      "id": "8ipGmrC"
+    },
+    {
+      "name": "Wallet 2",
+      "currency": "USD",
+      "balance": 0,
+      "id": "kZijwUK"
+    },
+    {
+      "name": "Waalllllllet",
+      "currency": "USD",
+      "balance": 22222,
+      "id": "03MhrNA"
+    },
+    {
+      "name": "wer",
+      "currency": "UZS",
+      "balance": 0,
+      "id": "3yZX0cj"
+    },
+    {
+      "name": "33",
+      "currency": "UZS",
+      "balance": 43546553,
+      "id": "nunvbMJ"
     }
   ],
-
   "transactions": [
     {
       "id": "t1",

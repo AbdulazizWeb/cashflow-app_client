@@ -46,7 +46,7 @@ export const Login = ({ className, ...props }: React.ComponentProps<"div">) => {
       toast.success("Login successful!");
       revalidate();
     } catch (error: unknown) {
-      console.log("rrr", error);
+      // console.log("rrr", error);
 
       const errorMessage = (error as ErrorFields)?.data || "Login failed";
       toast.error(errorMessage);
