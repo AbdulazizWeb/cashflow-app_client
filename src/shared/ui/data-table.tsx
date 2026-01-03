@@ -11,15 +11,6 @@ import {
 } from "@tanstack/react-table";
 
 import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/shared/ui/shadcn/pagination";
-import {
   Table,
   TableBody,
   TableCell,
@@ -45,11 +36,7 @@ export function DataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
-    state: {
-      sorting,
-      globalFilter,
-    },
-    paginateExpandedRows: true,
+    state: { sorting, globalFilter },
     onSortingChange: setSorting,
     onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
@@ -57,29 +44,49 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     initialState: { pagination: { pageSize: 20 } },
+
+    // ✅ sizing barqaror bo'lishi uchun
+    columnResizeMode: "onChange",
+    // (siz resizer ishlatmasangiz ham foydali)
   });
 
+  // ✅ Table sig'masa scroll bo'lishi uchun minWidth ni column size yig'indisidan olamiz
+  const tableMinWidth = React.useMemo(() => {
+    return table
+      .getAllLeafColumns()
+      .reduce((sum, col) => sum + col.getSize(), 0);
+  }, [table]);
+
   return (
-    <div className="flex flex-col h-full min-h-0 gap-3">
-      {/* Toolbar */}
+    <div className="flex min-h-0 h-full flex-col gap-3">
       {toolbar ? toolbar(table) : null}
 
-      {/* Table */}
-      <div className="flex-1 min-h-0 rounded-lg border overflow-hidden">
-        <div className="h-full overflow-y-auto relative" data-scroll="table">
-          <Table className="border-separate border-spacing-0">
+      <div className="flex-1 min-h-0 rounded-lg border overflow-hidden bg-background">
+        {/* Scroll container */}
+        <div className="relative h-full w-full overflow-auto">
+          {/* MUHIM: table w-max bo'lsin, shunda containerga siqilmaydi */}
+          <Table
+            className="w-full table-fixed border-separate border-spacing-0"
+            style={{ minWidth: tableMinWidth }}
+          >
             <TableHeader className="bg-[#e0e0e0]">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     const canSort = header.column.getCanSort();
-                    const sortDir = header.column.getIsSorted(); // false | "asc" | "desc"
+                    const sortDir = header.column.getIsSorted();
+                    const isActions = header.column.id === "actions";
 
                     return (
                       <TableHead
                         key={header.id}
-                        className="sticky top-0 z-20 bg-[#e0e0e0]"
-                        style={{ width: header.getSize() }}
+                        style={{ width: header.column.getSize() }}
+                        className={[
+                          "whitespace-nowrap",
+                          isActions
+                            ? "sticky right-0 z-30 bg-[#e0e0e0] border-l"
+                            : "",
+                        ].join(" ")}
                       >
                         <button
                           type="button"
@@ -116,21 +123,31 @@ export function DataTable<TData, TValue>({
               ))}
             </TableHeader>
 
-            <TableBody className="">
-              {table.getRowModel().rows?.length ? (
+            <TableBody>
+              {table.getRowModel().rows.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow key={row.id}>
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        style={{ width: cell.column.getSize() }}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
+                  <TableRow key={row.id} className="hover:bg-muted/40">
+                    {row.getVisibleCells().map((cell) => {
+                      const isActions = cell.column.id === "actions";
+
+                      return (
+                        <TableCell
+                          key={cell.id}
+                          style={{ width: cell.column.getSize() }}
+                          className={[
+                            "align-middle whitespace-nowrap",
+                            isActions
+                              ? "sticky right-0 z-20 bg-background border-l shadow-[-6px_0_12px_-12px_rgba(0,0,0,0.6)]"
+                              : "",
+                          ].join(" ")}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 ))
               ) : (
@@ -148,37 +165,10 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
 
-      {/* Pagination */}
+      {/* Pagination (siz keyin dynamic qilasiz) */}
       <div className="flex items-center justify-between">
         <div className="text-sm opacity-70">
           Rows: {table.getFilteredRowModel().rows.length}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#" isActive>
-                  2
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">3</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
         </div>
       </div>
     </div>

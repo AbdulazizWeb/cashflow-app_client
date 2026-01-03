@@ -1,14 +1,12 @@
-import * as React from "react";
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
 } from "@/shared/ui/shadcn/dialog";
 import { Button } from "@/shared/ui/shadcn/button";
-import { Wallet } from "lucide-react";
+
 import { Field, FieldError, FieldLabel } from "@/shared/ui/shadcn/field";
 import { Input } from "@/shared/ui/shadcn/input";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
@@ -19,21 +17,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui/shadcn/select";
-import { parseMoneyToNumber } from "@/shared/lib/number";
+import { convertNumberToString, parseMoneyToNumber } from "@/shared/lib/number";
 import { MoneyInput } from "@/shared/ui";
-import { useAddWalletMutation } from "@/entities/control-panel-module/api/control-panel.api";
+import {
+  useAddWalletMutation,
+  useEditWalletMutation,
+} from "@/entities/control-panel-module/api/control-panel.api";
 import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/app/providers/store/app-store";
+import { setOpen } from "@/entities/control-panel-module/model/control-panel-slice";
+import type { CreateWalletFormValues } from "../model/types";
+import { useEffect } from "react";
+import { Loader2 } from "lucide-react";
 
-type Currency = "USD" | "UZS";
+export const AddOrEditWalletDialog = () => {
+  const { mode, wallet, open } = useSelector(
+    (state: RootState) => state.controlPanel
+  );
 
-type FormFields = {
-  name: string;
-  currency: Currency;
-  balance: string;
-};
-
-export function AddWalletDialog() {
-  const [open, setOpen] = React.useState(false);
+  const isEdit = mode === "Edit";
 
   const {
     register,
@@ -41,43 +44,62 @@ export function AddWalletDialog() {
     control,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<FormFields>();
+  } = useForm<CreateWalletFormValues>();
   const [addWallet] = useAddWalletMutation();
+  const [editWallet] = useEditWalletMutation();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const onSubmit: SubmitHandler<FormFields> = async (formData: FormFields) => {
+  useEffect(() => {
+    if (!open) return;
+
+    if (isEdit && wallet) {
+      reset({ ...wallet, balance: convertNumberToString(wallet.balance) });
+    } else {
+      reset({ name: "", currency: "UZS", balance: "" });
+    }
+  }, [open, isEdit, wallet, reset]);
+
+  const onSubmit: SubmitHandler<CreateWalletFormValues> = async (
+    formData: CreateWalletFormValues
+  ) => {
     const payload = {
       ...formData,
       balance: parseMoneyToNumber(formData.balance),
     };
+    let res = null;
     try {
-      const res = await addWallet(payload).unwrap();
+      if (isEdit) {
+        if (!wallet) return;
+        res = await editWallet(payload).unwrap();
+
+        toast.success("Wallet edited successfully");
+      } else {
+        res = await addWallet(payload).unwrap();
+        toast.success("Wallet added successfully");
+      }
       console.log(res);
 
-      toast.success("Wallet successfully added");
       reset();
-      setOpen(false);
+      dispatch(setOpen(false));
     } catch (error) {
       toast.error(error as string);
     }
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(v) => {
+        dispatch(setOpen(v));
+        if (!v) reset(); // yopilganda tozalab yuborish ixtiyoriy
+      }}
+    >
       {/* 🔘 Sizning buttoningiz shu yerga ko‘chadi */}
-      <DialogTrigger asChild>
-        <Button
-          size="sm"
-          className="bg-[#8d4b00] hover:bg-[#703c00] text-white"
-        >
-          <Wallet className="mr-2 h-4 w-4" />
-          Add wallet
-        </Button>
-      </DialogTrigger>
 
       {/* 🪟 Dialog */}
       <DialogContent className="sm:max-w-120">
         <DialogHeader>
-          <DialogTitle>Add wallet</DialogTitle>
+          <DialogTitle>{isEdit ? "Edit" : "Add"} wallet</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -92,6 +114,7 @@ export function AddWalletDialog() {
                 {...register("name", {
                   required: "Name is required",
                 })}
+                aria-invalid={!!errors.name}
               />
               {errors.name && <FieldError>{errors.name.message}</FieldError>}
             </Field>
@@ -132,18 +155,27 @@ export function AddWalletDialog() {
               variant="outline"
               onClick={(e) => {
                 e.preventDefault();
-                setOpen(false);
+                dispatch(setOpen(false));
                 reset();
               }}
             >
               Cancel
             </Button>
             <Button disabled={isSubmitting} type="submit">
-              {isSubmitting ? "loading..." : "Add"}
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : isEdit ? (
+                "Edit"
+              ) : (
+                "Add"
+              )}
             </Button>
           </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
   );
-}
+};

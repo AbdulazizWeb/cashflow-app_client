@@ -34,6 +34,7 @@ export const Login = ({ className, ...props }: React.ComponentProps<"div">) => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>();
+
   const [loginUser, { isLoading }] = useLoginMutation();
   const { revalidate } = useRevalidator();
   const dispatch = useDispatch();
@@ -46,13 +47,9 @@ export const Login = ({ className, ...props }: React.ComponentProps<"div">) => {
       toast.success("Login successful!");
       revalidate();
     } catch (error: unknown) {
-      // console.log("rrr", error);
-
       const errorMessage = (error as ErrorFields)?.data || "Login failed";
       toast.error(errorMessage);
     }
-
-    // console.log("res", response?.data?.accessToken);
   };
   return (
     <div className={cn("flex flex-col gap-6 border-0 ", className)} {...props}>
